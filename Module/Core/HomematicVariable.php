@@ -5,7 +5,7 @@
  * @package     Smarthome
  * @subpackage  Module
  * @author      Robert Gies <mail@rgies.com>
- * @copyright   Copyright (c) 2014 by Robert Gies
+ * @copyright   Copyright © 2014 by Robert Gies
  * @license     New BSD License
  * @date        2014-01-10
  */
@@ -64,7 +64,8 @@ class Module_Core_HomematicVariable extends Module_Abstract
         }
 
         $html .= '<span>';
-        $html .= htmlentities($this->_config['label']) . ': ' . htmlentities($value);
+        $html .= htmlentities($this->_config['label'], ENT_QUOTES, 'UTF-8') . ': '
+            . htmlentities($value, ENT_QUOTES, 'UTF-8');
         $html .= '</span>';
 
         return $html;

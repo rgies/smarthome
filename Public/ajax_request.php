@@ -4,7 +4,7 @@
  *
  * @package     Smarthome
  * @author      Robert Gies <mail@rgies.com>
- * @copyright   Copyright (c) 2014 by Robert Gies
+ * @copyright   Copyright © 2014 by Robert Gies
  * @license     New BSD License
  * @date        2014-01-10
  */

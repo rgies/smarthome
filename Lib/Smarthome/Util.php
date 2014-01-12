@@ -5,7 +5,7 @@
  * @package     Smarthome
  * @subpackage  Lib_Smarthome
  * @author      Robert Gies <mail@rgies.com>
- * @copyright   Copyright (c) 2014 by Robert Gies
+ * @copyright   Copyright © 2014 by Robert Gies
  * @license     New BSD License
  * @date        2014-01-10
  */
@@ -75,7 +75,6 @@ class Lib_Smarthome_Util
             foreach ($alerts as $alert)
             {
                 $module = $modules[$z];
-                //if ($ret = Lib_Smarthome_Util::renderModule($alert->module))
                 if ($ret = $module->renderHtml($vars))
                 {
                     $html .= '<div class="alert alert-' . $alert['type'] . '">' . $ret . '</div>';
@@ -120,13 +119,6 @@ class Lib_Smarthome_Util
                     $html .= '<li class="list-group-item">' . $ret . '</li>';
                 }
             }
-//            foreach ($panel->children() as $module)
-//            {
-//                if ($ret = Lib_Smarthome_Util::renderModule($module))
-//                {
-//                    $html .= '<li class="list-group-item">' . $ret . '</li>';
-//                }
-//            }
             $html .= '</ul>';
         }
         return $html;

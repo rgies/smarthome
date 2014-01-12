@@ -5,7 +5,7 @@
  * @package     Smarthome
  * @subpackage  Module
  * @author      Robert Gies <mail@rgies.com>
- * @copyright   Copyright (c) 2014 by Robert Gies
+ * @copyright   Copyright © 2014 by Robert Gies
  * @license     New BSD License
  * @date        2014-01-10
  */
@@ -63,7 +63,7 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
 
         $html .= '<div style="height: 30px">';
         $html .= '<div style="float: left">';
-        $html .= htmlentities($this->_config['label']);
+        $html .= htmlentities($this->_config['label'], ENT_QUOTES, 'UTF-8');
         $html .= '</div>';
 
         $html .= '<div style="float: right">';

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
+<!-- Smarthome Copyright © 2014 by Robert Gies -->
 <html>
 <head>
     <title>Smarthome</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/smarthome.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/smarthome.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -57,7 +59,7 @@
                 echo '<div class="panel-heading">';
                 echo '<h4 class="panel-title">';
                 echo '<a data-toggle="collapse" data-parent="#accordion" href="#collapse' . $id . '">';
-                echo $panel['title'];
+                echo htmlentities($panel['title'], ENT_QUOTES, 'UTF-8');
                 echo '</a>';
                 echo '</h4>';
                 echo '</div>';
@@ -81,7 +83,7 @@
 
     </div>
 
-    <p style="text-align: center;color: #777777"><small>Copyright 2014 - Robert Gies</small></p>
+    <p style="text-align: center;color: #777777"><small>Copyright © 2014 - Robert Gies</small></p>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.10.2.min.js"></script>

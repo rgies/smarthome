@@ -5,7 +5,7 @@
  * @package     Smarthome
  * @subpackage  Module
  * @author      Robert Gies <mail@rgies.com>
- * @copyright   Copyright (c) 2014 by Robert Gies
+ * @copyright   Copyright © 2014 by Robert Gies
  * @license     New BSD License
  * @date        2014-01-10
  */
@@ -31,12 +31,21 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
 //        print_r($s);
 //        print_r ($vars); exit;
 
+        // temperature
         $temp = (isset($vars['vartemp' . $this->_id])) ? $vars['vartemp' . $this->_id] : '';
+
+        // valve state
+        $valv = (isset($vars['varvalv' . $this->_id])) ? $vars['varvalv' . $this->_id] : '';
 
 
         $html .= '<span>';
-        $html .= htmlentities($this->_config['label']);
-        $html .= '<h1>' . $temp . '</h1>';
+        $html .= htmlentities($this->_config['label'], ENT_QUOTES, 'UTF-8');
+
+        // Current temperature
+        $html .= '<h1>' . number_format((float)$temp, 1, '.', '') . '°</h1>';
+
+        $html .= '<small>Ventil: ' . $valv . '%</small>';
+
         $html .= '</span>';
 
         return $html;
@@ -54,10 +63,15 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         if (isset($this->_config['device_id']) && $this->_config['device_id'])
         {
             $hm = new Lib_Smarthome_Homematic();
-            //$script = $hm->getVarStatusScript($this->_id, $this->_config['variable']);
             $script = $hm->getDeviceStatusScript('temp' . $this->_id, $this->_config['device_id'],'ACTUAL_TEMPERATURE');
+            $script .= $hm->getDeviceStatusScript('valv' . $this->_id, $this->_config['device_id'],'VALVE_STATE');
         }
 
         return $script;
+    }
+
+    public function setAutoModeAjaxAction()
+    {
+        //dom.GetObject('Name').DPByHssDP('AUTO_MODE').State(1);
     }
 }
