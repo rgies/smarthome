@@ -1,0 +1,48 @@
+body {
+    background-color: rgba(218, 10, 13, 0.20);
+}
+
+/* Top navigation bar design */
+.navbar {
+    color: #ffffff;
+    background-color: #da0a0d;
+}
+
+.navbar-default .navbar-brand {
+    color: #ffffff;
+}
+
+.navbar-brand {
+    font: 20px/1.231 tahoma,verdana,arial,helvetica,clean,sans-serif;
+}
+.panel-title {
+    font: 18px/1.231 tahoma,verdana,arial,helvetica,clean,sans-serif;
+    color: #ffffff;
+    background: -moz-linear-gradient(top, #a2aead 0%, #839493 100%);
+    background: -o-linear-gradient(top, #a2aead 0%,#839493 100%);
+    background: -ms-linear-gradient(top, #a2aead 0%,#839493 100%);
+    background: linear-gradient(to bottom, #73737C 0%,#839493 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a2aead', endColorstr='#839493',GradientType=0 );
+    border: 1px solid #849493;
+    border-radius: 2px;
+    padding: 0 10px;
+    line-height: 40px;
+}
+
+.panel-heading {
+    padding: 2px;
+}
+
+.panel {
+    background-color: rgba(255, 255, 255, 0.60);
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(44, 26, 8, 0.75);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(44, 26, 8, 0.75);
+    box-shadow: 0px 0px 15px 0px rgba(44, 26, 8, 0.75);
+}
+
+.list-group-item {
+    color: #777777;
+    font: 12px/1.231 tahoma,verdana,arial,helvetica,clean,sans-serif;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.60);
+}
