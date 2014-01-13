@@ -57,7 +57,7 @@ class Module_Core_HomematicVariable extends Module_Abstract
         if (isset($this->_config['hide']))
         {
             $hides = explode(',', $this->_config['hide']);
-            if (in_array($value, $hides))
+            if (in_array($value, $hides) || $value == '')
             {
                 return '';
             }

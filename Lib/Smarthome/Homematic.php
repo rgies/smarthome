@@ -21,9 +21,12 @@ class Lib_Smarthome_Homematic
 {
     protected static $_connection = array();
 
+    protected static $_connectionErrorMessage;
+
     protected static $_host;
 
     protected $_port;
+
 
     public function __construct($port = 2001)
     {
@@ -95,6 +98,10 @@ class Lib_Smarthome_Homematic
 
     public function getServiceMessages()
     {
+        if (self::$_connectionErrorMessage !== null)
+        {
+            return array();
+        }
         return self::$_connection[$this->_port]->getServiceMessages();
     }
 
@@ -132,20 +139,48 @@ class Lib_Smarthome_Homematic
         return $ret;
     }
 
+    /**
+     * Check if connection to CCU is working.
+     *
+     * @param int $timeout Timeout in seconds
+     * @return bool|string True or error message
+     */
+    public function checkConnection($timeout = 2)
+    {
+        $ret = true;
+
+        $fp = @fsockopen (self::$_host, 8181, $errno, $errstr, $timeout);
+        if (!$fp)
+        {
+            $ret = '<strong>Connection Error:</strong> Die Homematic CCU kann unter der Netzwerkadresse [' . self::$_host
+                . '] nicht erreicht werden. Bitte prüfen Sie die Netzwerkverbindung und die Config.xml Konfigurationsdatei.';
+            self::$_connectionErrorMessage = $ret;
+            error_log($ret);
+        }
+        else
+        {
+            fclose($fp);
+            self::$_connectionErrorMessage = null;
+        }
+
+        return $ret;
+    }
+
     public function runScript($script)
     {
-        if (!$script)
+        if (!$script || self::$_connectionErrorMessage !== null)
         {
             return array();
         }
 
-        $fp = fsockopen (self::$_host, 8181, $errno, $errstr, 2);
+        $fp = @fsockopen (self::$_host, 8181, $errno, $errstr, 2);
         $res = '';
         $xml = '';
 
         if (!$fp)
         {
-            $res = "<xml><error>$errstr ($errno)</error></xml>";
+            $res = '<xml><error>' . utf8_encode($errstr) . '</error></xml>';
+            error_log($res);
         }
         else
         {

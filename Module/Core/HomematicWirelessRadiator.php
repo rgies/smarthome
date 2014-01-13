@@ -24,6 +24,7 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
     public function renderHtml($vars = array())
     {
         $html = '';
+        $buttonStyle = '';
 
         // current temperature
         $temp1 = (isset($vars['vartemp1' . $this->_id])) ? $vars['vartemp1' . $this->_id] : '';
@@ -39,6 +40,11 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
 
         // arrow icon
         $icon = ((float)$temp1 > (float)$temp2) ? 'arrow-down' : 'arrow-up';
+
+        if ($temp1 == '')
+        {
+            $buttonStyle = ' disabled';
+        }
 
         // control modes
         $modes = array('Auto', 'Manuell', 'Comfort', 'ECO', 'Boost');
@@ -67,13 +73,15 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         $html .= '<span style="font-size: small" class="glyphicon glyphicon-' . $icon . '"></span>&nbsp;';
 
         $html .= '<div class="btn-group-vertical">';
-        $html .= '<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-up"></span></button>';
-        $html .= '<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-down"></span></button>';
+        $html .= '<button type="button" class="btn btn-default btn-sm' . $buttonStyle
+            . '"><span class="glyphicon glyphicon-arrow-up"></span></button>';
+        $html .= '<button type="button" class="btn btn-default btn-sm' . $buttonStyle
+            . '"><span class="glyphicon glyphicon-arrow-down"></span></button>';
         $html .= '</div>&nbsp;';
 
         $html .= '<div class="btn-group">';
-        $html .= '<button type="button" class="btn btn-primary">' . $modeTxt . '</button>';
-        $html .= '<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        $html .= '<button type="button" class="btn btn-primary' . $buttonStyle . '">' . $modeTxt . '</button>';
+        $html .= '<button type="button" class="btn btn-primary dropdown-toggle' . $buttonStyle . '" data-toggle="dropdown">
           <span class="caret"></span>
           <span class="sr-only">Toggle Dropdown</span>
         </button>';
@@ -86,7 +94,8 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         $html .= '</div>';
         $html .= '</h1>';
 
-        $html .= '<small>Ventil: ' . $valv . '% / Soll: ' . number_format((float)$temp2, 1, '.', '') . '°</small>';
+        $html .= '<small>Ventil: ' . number_format((int)$valv) . '% / Soll: '
+            . number_format((float)$temp2, 1, '.', '') . '°</small>';
 
         $html .= '</span>';
 

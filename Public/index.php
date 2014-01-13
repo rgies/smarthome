@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="images/favicon.ico" />
-    <!-- Bootstrap -->
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/smarthome.css" rel="stylesheet" />
 </head>
@@ -30,14 +30,28 @@
     // Load config
     $config = new Lib_Smarthome_Config();
 
+    // Check connection
+    if ($config->getHost())
+    {
+        $hm = new Lib_Smarthome_Homematic();
+        $err = $hm->checkConnection();
+        if ($err !== true)
+        {
+            echo '<div class="alert alert-danger">' . $err . '</div>';
+        }
+    }
+
     // Alerts
-    echo Lib_Smarthome_Util::renderAlerts($config->getAlerts());
+    echo '<div id="alertBody">';
+    echo Lib_Smarthome_HtmlHelper::renderAlerts($config->getAlerts());
+    echo '</div>';
 
     // Draw grid with panels
     $id = 0;
     $rowNr = 0;
     $panels = array();
     $grid = $config->getGrid();
+
     foreach ($grid->children() as $row)
     {
         $colNr = 0;
@@ -52,7 +66,7 @@
                 $id++;
                 $colNr++;
                 $panelBodyId = 'panelBody' . $id;
-                $panels[$panelBodyId] = array($rowNr, $colNr);
+                $panels[$panelBodyId] = array($rowNr, $colNr, $panel);
 
                 echo '<div class="col-sm-' . $colWidth . '">';
                 echo '<div class="panel panel-default">';
@@ -69,7 +83,7 @@
                 echo '<div id="' . $panelBodyId . '" class="panel-body">';
 
                 // Render panel
-                echo Lib_Smarthome_Util::renderPanel($panel);
+                echo Lib_Smarthome_HtmlHelper::renderPanel($panel);
 
                 echo '</div>';
                 echo '</div>';
@@ -90,20 +104,9 @@
     <script src="js/jquery-1.10.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
-
-    <!-- Global page script -->
-    <script language="JavaScript">
-        setTimeout("location.reload(true);", 60000);
-
-    <?php
-//        // Load panel content with ajax request
-//        foreach ($panels as $id=>$panel)
-//        {
-//            $uri = 'ajax_request.php?module=renderPanel&action=' . $panel[0] . '&params=' . $panel[1];
-//            echo '$.get( "' . $uri . '", function( data ) { $( "#' . $id . '" ).html( data ); });';
-//        }
-    ?>
-
-    </script>
+    <!-- Alert refresh script -->
+    <script language="JavaScript"><?php echo Lib_Smarthome_HtmlHelper::renderAlertRefreshJs();?></script>
+    <!-- Panel refresh script -->
+    <script language="JavaScript"><?php echo Lib_Smarthome_HtmlHelper::renderPanelRefreshJs($panels);?></script>
 </body>
 </html>

@@ -16,41 +16,31 @@ if (!isset($_REQUEST['module']))
     error_log('Ajax request: Module param missing !!!');
     exit;
 }
+
 $module = $_REQUEST['module'];
 $action = $_REQUEST['action'];
 $params = $_REQUEST['params'];
 
-if ($module == 'renderPanel')
+// Debug log
+//error_log('Ajax request: ' . print_r($_REQUEST, true));
+
+// Load config
+$config = new Lib_Smarthome_Config();
+
+if ($module == 'renderAlerts')
 {
-    $html = 'test';
-
-    // Load config
-    $config = new Lib_Smarthome_Config();
-    $panel = $config->getPanel((int)$action-1, (int)$params-1);
-
-
-    if ($panel->children()->count())
-    {
-        echo '<ul class="list-group">';
-        foreach ($panel->children() as $module)
-        {
-            echo '<li class="list-group-item">';
-
-            $modConf = json_decode(json_encode((array)$module), 2);
-            $modCls  = 'Module_' . (string)$module->class;
-            $modObj = new $modCls($modConf);
-            echo $modObj->renderHtml();
-
-            echo '</li>';
-        }
-        echo '</ul>';
-    }
-    exit;
+    // Render alerts
+    echo Lib_Smarthome_HtmlHelper::renderAlerts($config->getAlerts());
 }
-
-error_log('Ajax request: ' . print_r($_REQUEST, true));
-
-$functionName = $action . 'AjaxAction';
-
-// Call module method
-echo $module::$functionName($params);
+elseif ($module == 'renderPanel')
+{
+    // Render panel
+    $panel = $config->getPanel((int)$action-1, (int)$params-1);
+    echo Lib_Smarthome_HtmlHelper::renderPanel($panel);
+}
+else
+{
+    // Call module method
+    $functionName = $action . 'AjaxAction';
+    echo $module::$functionName($params);
+}
