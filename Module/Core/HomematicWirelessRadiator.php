@@ -41,11 +41,11 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         $icon = ((float)$temp1 > (float)$temp2) ? 'arrow-down' : 'arrow-up';
 
         // control modes
-        $modes = array('Auto', 'Manuel', 'Comfort', 'ECO', 'Boost');
+        $modes = array('Auto', 'Manuell', 'Comfort', 'ECO', 'Boost');
         switch($mode)
         {
             case '1';
-                $modeTxt = 'Manuel';
+                $modeTxt = 'Manuell';
                 break;
             case '2';
                 $modeTxt = 'Party';
