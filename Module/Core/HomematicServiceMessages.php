@@ -25,7 +25,7 @@ class Module_Core_HomematicServiceMessages extends Module_Abstract
     {
         $html = '';
 
-        $hm = new Lib_Smarthome_Homematic();
+        $hm = new Lib_Core_Homematic();
         $messages = $hm->getServiceMessages();
 
         if (count($messages))

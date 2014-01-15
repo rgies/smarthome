@@ -24,7 +24,7 @@ class Module_Core_HomematicVariable extends Module_Abstract
     public function renderHtml($vars = array())
     {
         $html = '';
-        $hm = new Lib_Smarthome_Homematic();
+        $hm = new Lib_Core_Homematic();
 
         //$value = $hm->getState($this->_config['variable']);
         $value = (isset($vars['var' . $this->_id])) ? $vars['var' . $this->_id] : '';
@@ -82,7 +82,7 @@ class Module_Core_HomematicVariable extends Module_Abstract
 
         if (isset($this->_config['variable']) && $this->_config['variable'])
         {
-            $hm = new Lib_Smarthome_Homematic();
+            $hm = new Lib_Core_Homematic();
             $script = $hm->getVarStatusScript($this->_id, $this->_config['variable']);
         }
 

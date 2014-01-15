@@ -11,9 +11,9 @@
  */
 
 /**
- * Class Lib_Smarthome_HtmlHelper.
+ * Class Lib_Core_HtmlHelper.
  */
-class Lib_Smarthome_HtmlHelper
+class Lib_Core_HtmlHelper
 {
     /**
      * Gets html code from given module name.
@@ -57,7 +57,7 @@ class Lib_Smarthome_HtmlHelper
 
         if ($alerts)
         {
-            $hm = new Lib_Smarthome_Homematic();
+            $hm = new Lib_Core_Homematic();
 
             foreach ($alerts as $alert)
             {
@@ -108,7 +108,8 @@ class Lib_Smarthome_HtmlHelper
                 $script .= $moduleObject->getRequestScript();
             }
 
-            $hm = new Lib_Smarthome_Homematic();
+            // execute homematic script
+            $hm = new Lib_Core_Homematic();
             $vars = $hm->runScript($script);
 
             $html .= '<ul class="list-group">';
@@ -118,6 +119,7 @@ class Lib_Smarthome_HtmlHelper
                 {
                     //$html .= '<li class="list-group-item" style="float: left; width: 250px;">' . $ret . '</li>';
                     $html .= '<li class="list-group-item">' . $ret . '</li>';
+                    //$html .= '<li class="list-group-item col-xs-6 col-md-6">' . $ret . '</li>';
                 }
             }
             $html .= '</ul>';

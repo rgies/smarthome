@@ -88,7 +88,7 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
 
         if (isset($this->_config['device_id']) && $this->_config['device_id'])
         {
-            $hm = new Lib_Smarthome_Homematic();
+            $hm = new Lib_Core_Homematic();
             $script = $hm->getDeviceStatusScript($this->_id, $this->_config['device_id'], 'level');
         }
 
@@ -106,7 +106,7 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
 //
 //        if (isset($this->_config['device_id']) && $this->_config['device_id'])
 //        {
-//            $hm = new Lib_Smarthome_Homematic();
+//            $hm = new Lib_Core_Homematic();
 //            //$status = $hm->getValue($this->_config['device_id'], 'LEVEL');
 //            $status = $hm->getState('BidCos-RF.' . $this->_config['device_id'] . '.LEVEL');
 //        }
@@ -121,7 +121,7 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
      */
     public static function setStatusAjaxAction(array $params)
     {
-        $hm = new Lib_Smarthome_Homematic();
+        $hm = new Lib_Core_Homematic();
         $hm->setValue($params[0], 'LEVEL', $params[1]);
     }
 } 

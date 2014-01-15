@@ -28,12 +28,12 @@
     require_once '../Config/Init.php';
 
     // Load config
-    $config = new Lib_Smarthome_Config();
+    $config = new Lib_Core_Config();
 
     // Check connection
     if ($config->getHost())
     {
-        $hm = new Lib_Smarthome_Homematic();
+        $hm = new Lib_Core_Homematic();
         $err = $hm->checkConnection();
         if ($err !== true)
         {
@@ -43,7 +43,7 @@
 
     // Alerts
     echo '<div id="alertBody">';
-    echo Lib_Smarthome_HtmlHelper::renderAlerts($config->getAlerts());
+    echo Lib_Core_HtmlHelper::renderAlerts($config->getAlerts());
     echo '</div>';
 
     // Draw grid with panels
@@ -83,7 +83,7 @@
                 echo '<div id="' . $panelBodyId . '" class="panel-body">';
 
                 // Render panel
-                echo Lib_Smarthome_HtmlHelper::renderPanel($panel);
+                echo Lib_Core_HtmlHelper::renderPanel($panel);
 
                 echo '</div>';
                 echo '</div>';
@@ -105,8 +105,8 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <!-- Alert refresh script -->
-    <script language="JavaScript"><?php echo Lib_Smarthome_HtmlHelper::renderAlertRefreshJs();?></script>
+    <script language="JavaScript"><?php echo Lib_Core_HtmlHelper::renderAlertRefreshJs();?></script>
     <!-- Panel refresh script -->
-    <script language="JavaScript"><?php echo Lib_Smarthome_HtmlHelper::renderPanelRefreshJs($panels);?></script>
+    <script language="JavaScript"><?php echo Lib_Core_HtmlHelper::renderPanelRefreshJs($panels);?></script>
 </body>
 </html>

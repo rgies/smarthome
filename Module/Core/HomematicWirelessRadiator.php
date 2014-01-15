@@ -113,7 +113,7 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
 
         if (isset($this->_config['device_id']) && $this->_config['device_id'])
         {
-            $hm = new Lib_Smarthome_Homematic();
+            $hm = new Lib_Core_Homematic();
             $script = $hm->getDeviceStatusScript('temp1' . $this->_id, $this->_config['device_id'],'ACTUAL_TEMPERATURE');
             $script .= $hm->getDeviceStatusScript('temp2' . $this->_id, $this->_config['device_id'],'SET_TEMPERATURE');
             $script .= $hm->getDeviceStatusScript('valv' . $this->_id, $this->_config['device_id'],'VALVE_STATE');

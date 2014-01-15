@@ -25,18 +25,18 @@ $params = $_REQUEST['params'];
 //error_log('Ajax request: ' . print_r($_REQUEST, true));
 
 // Load config
-$config = new Lib_Smarthome_Config();
+$config = new Lib_Core_Config();
 
 if ($module == 'renderAlerts')
 {
     // Render alerts
-    echo Lib_Smarthome_HtmlHelper::renderAlerts($config->getAlerts());
+    echo Lib_Core_HtmlHelper::renderAlerts($config->getAlerts());
 }
 elseif ($module == 'renderPanel')
 {
     // Render panel
     $panel = $config->getPanel((int)$action-1, (int)$params-1);
-    echo Lib_Smarthome_HtmlHelper::renderPanel($panel);
+    echo Lib_Core_HtmlHelper::renderPanel($panel);
 }
 else
 {
