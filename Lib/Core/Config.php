@@ -20,6 +20,12 @@ class Lib_Core_Config
     public function __construct()
     {
         $filename = SH_ROOT_PATH . 'Config/Config.xml';
+
+        if (!file_exists($filename))
+        {
+            die('Bitte die Config.xml Datei anlegen !!!');
+        }
+
         $this->_readConfig($filename);
     }
 

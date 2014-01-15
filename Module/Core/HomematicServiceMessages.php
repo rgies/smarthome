@@ -16,6 +16,13 @@
 class Module_Core_HomematicServiceMessages extends Module_Abstract
 {
     /**
+     * Required parameters for valid configuration.
+     *
+     * @var array
+     */
+    protected $_requiredParams = array('class', 'label');
+
+    /**
      * Gets html code shown in configured panel.
      *
      * @var array vars Variables from ccu response

@@ -69,7 +69,16 @@ class Lib_Core_HtmlHelper
                 $script .= $moduleObject->getRequestScript();
             }
 
-            $vars = $hm->runScript($script);
+            // execute homematic script with max 3 retry loops on problems
+            for ($i=1; $i<=3; $i++)
+            {
+                $vars = $hm->runScript($script);
+                if (Lib_Core_FunctionHelper::validateScriptResult($vars))
+                {
+                    continue;
+                }
+                error_log('Retry script execution in renderAlerts().');
+            }
 
             $z = 0;
             foreach ($alerts as $alert)
@@ -99,6 +108,8 @@ class Lib_Core_HtmlHelper
 
         if ($panel->children()->count())
         {
+            $hm = new Lib_Core_Homematic();
+
             foreach ($panel->children() as $module)
             {
                 $moduleConf = json_decode(json_encode((array)$module), 2);
@@ -108,9 +119,16 @@ class Lib_Core_HtmlHelper
                 $script .= $moduleObject->getRequestScript();
             }
 
-            // execute homematic script
-            $hm = new Lib_Core_Homematic();
-            $vars = $hm->runScript($script);
+            // execute homematic script with max 3 retry loops on problems
+            for ($i=1; $i<=3; $i++)
+            {
+                $vars = $hm->runScript($script);
+                if (Lib_Core_FunctionHelper::validateScriptResult($vars))
+                {
+                    continue;
+                }
+                error_log('Retry script execution in renderPanel().');
+            }
 
             $html .= '<ul class="list-group">';
             foreach ($modules as $module)

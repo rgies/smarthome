@@ -166,6 +166,12 @@ class Lib_Core_Homematic
         return $ret;
     }
 
+    /**
+     * Execute given homematic script.
+     *
+     * @param string $script Homematic script to execute
+     * @return array Execution result array
+     */
     public function runScript($script)
     {
         if (!$script || self::$_connectionErrorMessage !== null)
@@ -175,12 +181,12 @@ class Lib_Core_Homematic
 
         $fp = @fsockopen (self::$_host, 8181, $errno, $errstr, 2);
         $res = '';
-        $xml = '';
+        $xml = array();
 
         if (!$fp)
         {
-            $res = '<xml><error>' . utf8_encode($errstr) . '</error></xml>';
-            error_log($res);
+            error_log(utf8_encode($errstr));
+            return array('<error>' => utf8_encode($errstr));
         }
         else
         {

@@ -2,14 +2,22 @@
 <config>
     <!--
     *************************************************************************
-    ** Bitte CCU IP-Adresse und Homematic Komponenten Seriennummern eintragen
+    ** SMARTHOME - Configuration
+    *************************************************************************
+     Bitte passen sie alle Stellen mit ??? an und tragen dort Ihre
+     individuellen Parameter ein.
+    *************************************************************************
+     Weitere Dokumentation siehe http://www.github.com/rgies/smarthome
     *************************************************************************
     -->
+
+    <!-- Main Settings -->
     <app>
-        <!-- Bitte tragen Sie hier Ihre CCU IP-Adresse ein -->
-        <host>192.168.1.xxx</host>
+        <!-- HomeMatic CCU IP Address -->
+        <host>192.168.???.???</host>
     </app>
 
+    <!-- Alert Messages -->
     <alert type="warning">
         <module>
             <label>Es gibt %1 Service Meldung(en).</label>
@@ -17,11 +25,12 @@
         </module>
     </alert>
 
+    <!-- Grid Layout -->
     <grid>
-
         <row>
             <!-- Panel Anwesenheit -->
-            <panel title="Zuhause">
+            <panel title="Zuhause" refresh="30">
+                <!-- HM Variable Output Module -->
                 <module>
                     <label>Anwesenheit</label>
                     <class>Core_HomematicVariable</class>
@@ -30,24 +39,23 @@
                 </module>
             </panel>
         </row>
-
         <row>
             <!-- Panel Rolladen -->
-            <panel title="Rolladen">
+            <panel title="Rolladen" refresh="30">
                 <module>
                     <!-- HM-LC-Bl1PBU-FM -->
-                    <label>Rolladen xxx</label>
+                    <label>Rolladenschalter 1</label>
                     <class>Core_HomematicRadioBlindActuator</class>
-                    <device_id>KEQ0813033:1</device_id>
+                    <device_id>KEQ???????:1</device_id>
                 </module>
             </panel>
 
             <!-- Panel Licht -->
-            <panel title="Licht">
+            <panel title="Licht" refresh="30">
                 <module>
-                    <label>Licht xxx</label>
+                    <label>Lichtschalter 1</label>
                     <class>Core_HomematicRadioSwitchActuator</class>
-                    <device_id>IEQ0026454:1</device_id>
+                    <device_id>IEQ???????:1</device_id>
                 </module>
             </panel>
 
@@ -55,11 +63,11 @@
 
         <row>
             <!-- Panel Heizung -->
-            <panel title="Heizung">
+            <panel title="Heizung" refresh="30">
                 <module>
-                    <label>Heizung xxx</label>
+                    <label>Thermostat 1</label>
                     <class>Core_HomematicWirelessRadiator</class>
-                    <device_id>KEQ0514679:4</device_id>
+                    <device_id>KEQ???????:4</device_id>
                 </module>
             </panel>
         </row>

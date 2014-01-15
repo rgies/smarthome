@@ -16,6 +16,13 @@
 class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
 {
     /**
+     * Required parameters for valid configuration.
+     *
+     * @var array
+     */
+    protected $_requiredParams = array('class', 'label', 'device_id');
+
+    /**
      * Gets html code shown in configured panel.
      *
      * @var array vars Variables from ccu response
@@ -32,33 +39,31 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
         $clickOn = "";
         $clickOff = "";
 
-        if (isset($this->_config['device_id']) && $this->_config['device_id'])
+        $status = (isset($vars['var' . $this->_id])) ? $vars['var' . $this->_id] : null;
+
+        if ($this->_config['device_id'] && !is_null($status))
         {
-            $status = (isset($vars['var' . $this->_id])) ? $vars['var' . $this->_id] : null;
 
-            if (!is_null($status))
+            if ($status > 0.0)
             {
-                if ($status > 0.0)
-                {
-                    $onCss = 'btn btn-primary active';
-                    $offCss = 'btn btn-default';
-                }
-                else
-                {
-                    $onCss = 'btn btn-default';
-                    $offCss = 'btn btn-primary active';
-                }
-
-                $uri = $this->_getAjaxUrl('setStatus', array($this->_config['device_id'], 100.0));
-                $clickOn = "\$('#" . $idOn . "').attr('class', 'btn btn-primary active');";
-                $clickOn .= "\$('#" . $idOff . "').attr('class', 'btn btn-default');";
-                $clickOn .= "$.get( '" . $uri . "', function( data ) {});";
-
-                $uri = $this->_getAjaxUrl('setStatus', array($this->_config['device_id'], 0.0));
-                $clickOff = "\$('#" . $idOff . "').attr('class', 'btn btn-primary active');";
-                $clickOff .= "\$('#" . $idOn . "').attr('class', 'btn btn-default');";
-                $clickOff .= "$.get( '" . $uri . "', function( data ) {});";
+                $onCss = 'btn btn-primary active';
+                $offCss = 'btn btn-default';
             }
+            else
+            {
+                $onCss = 'btn btn-default';
+                $offCss = 'btn btn-primary active';
+            }
+
+            $uri = $this->_getAjaxUrl('setStatus', array($this->_config['device_id'], 100.0));
+            $clickOn = "\$('#" . $idOn . "').attr('class', 'btn btn-primary active');";
+            $clickOn .= "\$('#" . $idOff . "').attr('class', 'btn btn-default');";
+            $clickOn .= "$.get( '" . $uri . "', function( data ) {});";
+
+            $uri = $this->_getAjaxUrl('setStatus', array($this->_config['device_id'], 0.0));
+            $clickOff = "\$('#" . $idOff . "').attr('class', 'btn btn-primary active');";
+            $clickOff .= "\$('#" . $idOn . "').attr('class', 'btn btn-default');";
+            $clickOff .= "$.get( '" . $uri . "', function( data ) {});";
         }
 
         $html .= '<div style="height: 30px">';

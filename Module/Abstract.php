@@ -30,11 +30,11 @@ abstract class Module_Abstract implements Module_Interface
     protected $_config;
 
     /**
-     * Needed fields for valid configuration.
+     * Required parameters for valid configuration.
      *
      * @var array
      */
-    protected $_requiredFields = array('label');
+    protected $_requiredParams = array('class');
 
     /**
      * Module constructor.
@@ -45,6 +45,7 @@ abstract class Module_Abstract implements Module_Interface
     {
         $this->_id = uniqid();
         $this->_config = $config;
+        $this->_validateParams();
     }
 
     /**
@@ -53,6 +54,21 @@ abstract class Module_Abstract implements Module_Interface
     protected function _init()
     {
         // init function to overwrite at modules
+    }
+
+    /**
+     * Validates given module params
+     */
+    protected function _validateParams()
+    {
+        foreach ($this->_requiredParams as $param)
+        {
+            if (!isset($this->_config[$param]))
+            {
+                throw new Exception('Parameter [' . $param . '] at class [' . get_called_class()
+                    . '] is required and must be set at Config.xml.');
+            }
+        }
     }
 
     /**
