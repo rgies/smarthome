@@ -32,7 +32,7 @@ class Module_Core_HomematicVariable extends Module_Abstract
     {
         $html = '';
 
-        $value = (isset($vars['var' . $this->_id]) && $vars['var' . $this->_id]) ? $vars['var' . $this->_id] : '';
+        $value = (isset($vars['var' . $this->_id])) ? $vars['var' . $this->_id] : null;
 
         if ($value == 'true')
         {
@@ -41,6 +41,10 @@ class Module_Core_HomematicVariable extends Module_Abstract
         elseif ($value == 'false')
         {
             $value = false;
+        }
+        elseif (is_array($value))
+        {
+            $value = '';
         }
 
         // Map value to the right content
