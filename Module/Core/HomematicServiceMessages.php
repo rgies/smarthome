@@ -35,7 +35,7 @@ class Module_Core_HomematicServiceMessages extends Module_Abstract
         $hm = new Lib_Core_Homematic();
         $messages = $hm->getServiceMessages();
 
-        if (count($messages))
+        if ($messages && count($messages))
         {
             $html = htmlentities($this->_config['label']);
 

@@ -31,10 +31,8 @@ class Module_Core_HomematicVariable extends Module_Abstract
     public function renderHtml($vars = array())
     {
         $html = '';
-        $hm = new Lib_Core_Homematic();
 
-        //$value = $hm->getState($this->_config['variable']);
-        $value = (isset($vars['var' . $this->_id])) ? $vars['var' . $this->_id] : '';
+        $value = (isset($vars['var' . $this->_id]) && $vars['var' . $this->_id]) ? $vars['var' . $this->_id] : '';
 
         if ($value == 'true')
         {
