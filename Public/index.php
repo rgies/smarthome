@@ -79,7 +79,8 @@
                 echo '</h4>';
                 echo '</div>';
 
-                echo '<div id="collapse' . $id . '" class="panel-collapse collapse in">';
+                $collapsed = (isset($panel['collapsed']) && $panel['collapsed']=='1') ? '' : ' in';
+                echo '<div id="collapse' . $id . '" class="panel-collapse collapse' . $collapsed . '">';
                 echo '<div id="' . $panelBodyId . '" class="panel-body">';
 
                 // Render panel
