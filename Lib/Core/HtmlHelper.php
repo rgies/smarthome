@@ -70,15 +70,7 @@ class Lib_Core_HtmlHelper
             }
 
             // execute homematic script with max 3 retry loops on problems
-            for ($i=1; $i<=3; $i++)
-            {
-                $vars = $hm->runScript($script);
-                if (Lib_Core_FunctionHelper::validateScriptResult($vars))
-                {
-                    continue;
-                }
-                error_log('Retry script execution in renderAlerts().');
-            }
+            $vars = $hm->runScript($script, 3);
 
             $z = 0;
             foreach ($alerts as $alert)
@@ -120,15 +112,7 @@ class Lib_Core_HtmlHelper
             }
 
             // execute homematic script with max 3 retry loops on problems
-            for ($i=1; $i<=3; $i++)
-            {
-                $vars = $hm->runScript($script);
-                if (Lib_Core_FunctionHelper::validateScriptResult($vars))
-                {
-                    continue;
-                }
-                error_log('Retry script execution in renderPanel().');
-            }
+            $vars = $hm->runScript($script, 3);
 
             $html .= '<ul class="list-group">';
             foreach ($modules as $module)

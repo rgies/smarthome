@@ -48,13 +48,36 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         // arrow icon
         $icon = ((float)$temp1 > (float)$temp2) ? 'arrow-down' : 'arrow-up';
 
+        $upScript   = '';
+        $downScript = '';
+
         if ($temp1 == '')
         {
             $buttonStyle = ' disabled';
         }
+        else
+        {
+            $upTemp     = (float)$temp2 + 0.5;
+            $downTemp   = (float)$temp2 - 0.5;
+            $upUri      = $this->_getAjaxUrl('setTemperature', array($this->_config['device_id'], $upTemp));
+            $downUri    = $this->_getAjaxUrl('setTemperature', array($this->_config['device_id'], $downTemp));
+            $upScript   = '$(\'#btnCtrlMode_' . $this->_id . '\').html(\'Manuell\');$(\'#setTemp_' . $this->_id
+                . '\').html(\'' . number_format($upTemp, 1, '.', '') . '\');$.get( \'' . $upUri
+                . '\', function( data ) {});';
+            $downScript = '$(\'#btnCtrlMode_' . $this->_id . '\').html(\'Manuell\');$(\'#setTemp_' . $this->_id
+                . '\').html(\'' . number_format($downTemp, 1, '.', '') . '\');$.get( \'' . $downUri
+                . '\', function( data ) {});';
+        }
 
         // control modes
-        $modes = array('Auto', 'Manuell', 'Comfort', 'ECO', 'Boost');
+        $modes = array(
+            'Auto'      => array('setAutoMode', 1),
+            'Manuell'   => array('setTemperature', (float)$temp2),
+            'Comfort'   => array('setTemperature', 21),
+            'ECO'       => array('setTemperature', 16),
+            //'Boost'     => array('', 0)
+        );
+
         switch($mode)
         {
             case '1';
@@ -79,30 +102,41 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         $html .= number_format((float)$temp1, 1, '.', '') . '°';
         $html .= '<span style="font-size: small" class="glyphicon glyphicon-' . $icon . '"></span>&nbsp;';
 
+        // temperature up/down
         $html .= '<div class="btn-group-vertical">';
         $html .= '<button type="button" class="btn btn-default btn-sm' . $buttonStyle
-            . '"><span class="glyphicon glyphicon-arrow-up"></span></button>';
+            . '" onclick="' . $upScript . '"><span class="glyphicon glyphicon-arrow-up"></span></button>';
         $html .= '<button type="button" class="btn btn-default btn-sm' . $buttonStyle
-            . '"><span class="glyphicon glyphicon-arrow-down"></span></button>';
+            . '" onclick="' . $downScript . '"><span class="glyphicon glyphicon-arrow-down"></span></button>';
         $html .= '</div>&nbsp;';
 
+        // control mode
         $html .= '<div class="btn-group">';
-        $html .= '<button type="button" class="btn btn-primary' . $buttonStyle . '">' . $modeTxt . '</button>';
-        $html .= '<button type="button" class="btn btn-primary dropdown-toggle' . $buttonStyle . '" data-toggle="dropdown">
+        $html .= '<button id="btnCtrlMode_' . $this->_id . '" type="button" class="btn btn-primary'
+            . $buttonStyle . '">' . $modeTxt . '</button>';
+        $html .= '<button type="button" class="btn btn-primary dropdown-toggle' . $buttonStyle
+            . '" data-toggle="dropdown">
           <span class="caret"></span>
           <span class="sr-only">Toggle Dropdown</span>
         </button>';
         $html .= '<ul class="dropdown-menu" role="menu">';
         foreach ($modes as $key=>$value)
         {
-            $html .= '<li><a href="#">' . $value . '</a></li>';
+            $onClick = 'void(0);';
+            if ($value[0])
+            {
+                $uri = $this->_getAjaxUrl($value[0], array($this->_config['device_id'], $value[1]));
+                $onClick = "$('#btnCtrlMode_" . $this->_id . "').html('" . $key . "');$.get( '"
+                    . $uri . "', function( data ) {});";
+            }
+            $html .= '<li><a href="javascript:' . $onClick . '">' . $key . '</a></li>';
         }
         $html .= '</ul>';
         $html .= '</div>';
         $html .= '</h1>';
 
-        $html .= '<small>Ventil: ' . number_format((int)$valv) . '% / Soll: '
-            . number_format((float)$temp2, 1, '.', '') . '°</small>';
+        $html .= '<small>Ventil: ' . number_format((int)$valv) . '% / Soll: <span id="setTemp_' . $this->_id . '">'
+            . number_format((float)$temp2, 1, '.', '') . '</span>°</small>';
 
         $html .= '</span>';
 
@@ -130,8 +164,30 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         return $script;
     }
 
-    public function setAutoModeAjaxAction()
+    /**
+     * Ajax action to set the temperature.
+     *
+     * @param array $params Array([device_id], [status])
+     */
+    public static function setTemperatureAjaxAction(array $params)
     {
+        if (isset($params[1]) && is_numeric($params[1]))
+        {
+            $value = (float)$params[1];
+            $hm = new Lib_Core_Homematic();
+            $hm->setValue($params[0], 'MANU_MODE', $value);
+        }
+    }
+
+    /**
+     * Ajax action to set the mode to auto.
+     *
+     * @param array $params Array([device_id], [status])
+     */
+    public static function setAutoModeAjaxAction(array $params)
+    {
+        $hm = new Lib_Core_Homematic();
+        $hm->setValue($params[0], 'AUTO_MODE', true);
         //dom.GetObject('Name').DPByHssDP('AUTO_MODE').State(1);
         //dom.GetObject("BidCos-RF.KEQ0431880:4.MANU_MODE").State(22.5);
     }

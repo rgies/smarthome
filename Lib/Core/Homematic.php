@@ -170,9 +170,31 @@ class Lib_Core_Homematic
      * Execute given homematic script.
      *
      * @param string $script Homematic script to execute
+     * @param integer $retries Number of retries on problems
      * @return array Execution result array
      */
-    public function runScript($script)
+    public function runScript($script, $retries = 0)
+    {
+        for ($i=0; $i<=$retries; $i++)
+        {
+            $vars = $this->_runScript($script);
+            if (Lib_Core_FunctionHelper::validateScriptResult($vars))
+            {
+                continue;
+            }
+            error_log('Retry script execution in ' . __CLASS__ . ':' . $script);
+        }
+
+        return $vars;
+    }
+
+    /**
+     * Execute given homematic script.
+     *
+     * @param string $script Homematic script to execute
+     * @return array Execution result array
+     */
+    protected function _runScript($script)
     {
         if (!$script || self::$_connectionErrorMessage !== null)
         {
