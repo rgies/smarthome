@@ -130,6 +130,16 @@ class Lib_Core_HtmlHelper
     }
 
     /**
+     * Get html code for ajax reloader.
+     *
+     * @return string Html
+     */
+    public static function renderAjaxLoader()
+    {
+        return '<div align="center"><img src="images/ajax-loader.gif"/></div>';
+    }
+
+    /**
      * Get javascript code to refresh the alerts.
      *
      * @return string Js code
@@ -167,11 +177,11 @@ class Lib_Core_HtmlHelper
             {
                 $refreshTime = ((int)$panel[2]['refresh'] < 10) ? 10 : (int)$panel[2]['refresh'];
                 $uri = 'ajax_request.php?module=renderPanel&action=' . $panel[0] . '&params=' . $panel[1];
-                $jsTimeout = 'setTimeout("refresh_' . $id . '()", ' . $refreshTime * 1000 . ');';
+                $jsTimeout = 'setTimeout("sm_refresh_' . $id . '()", ' . $refreshTime * 1000 . ');';
                 $jsScript = 'if (!$(".modal").hasClass("in") && $("#collapse' . $z . '").hasClass("in")){';
                 $jsScript .= '$.get( "' . $uri . '", function( data ) { $( "#' . $id . '" ).html( data ); });';
                 $jsScript .= '};';
-                $js .= 'function refresh_' . $id . '(){' . $jsScript . $jsTimeout . '};';
+                $js .= 'function sm_refresh_' . $id . '(){' . $jsScript . $jsTimeout . '};';
                 $js .= $jsTimeout;
             }
         }
