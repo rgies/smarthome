@@ -37,7 +37,7 @@ class Module_Core_HomematicServiceMessages extends Module_Abstract
 
         if ($messages && count($messages))
         {
-            $html = htmlentities($this->_config['label']);
+            $html = htmlentities($this->_config['label'], ENT_QUOTES, 'UTF-8');
 
             if (mb_strpos($html, '%1') !== false)
             {
@@ -51,7 +51,8 @@ class Module_Core_HomematicServiceMessages extends Module_Abstract
             $message = '';
             foreach ($messages as $item)
             {
-                $message .= htmlentities($this->_translateErrMessage($item[0], $item[1])) . '.<br/>';
+                $message .= htmlentities($this->_translateErrMessage($item[0], $item[1]), ENT_QUOTES, 'UTF-8')
+                    . '.<br/>';
             }
 
             $html .= '<!-- Button trigger modal -->
