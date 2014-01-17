@@ -43,7 +43,7 @@ abstract class Module_Abstract implements Module_Interface
      */
     final public function __construct($config)
     {
-        $id = explode('.', uniqid("", true));
+        $id = md5(uniqid(rand(), true));
         $this->_id = $id[0];
         $this->_config = $config;
         $this->_validateParams();
