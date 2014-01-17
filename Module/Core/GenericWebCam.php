@@ -30,14 +30,26 @@ class Module_Core_GenericWebCam extends Module_Abstract
      */
     public function renderHtml($vars = array())
     {
+        $id = $this->_id;
+        $config = $this->_config;
         $html = '';
 
-        $url = $this->_config['url'];
+        $url = $config['url'];
 
         $html .= '<div>';
-        $html .= htmlentities($this->_config['label'], ENT_QUOTES, 'UTF-8');
+        $html .= htmlentities($config['label'], ENT_QUOTES, 'UTF-8');
         $html .= '</div>';
-        $html .= '<img width="320px" height="240px" src="' . $url . '" />';
+        $html .= '<div style="max-width:640px;"><img id="gcamimage_' . $id
+            . '" style="max-width:100%; height: auto;" src="' . $url . '" /></div>';
+
+        // javascript to refresh cam images
+        if (isset($config['refresh']) && is_numeric($config['refresh']))
+        {
+            $int = (int)$config['refresh'] * 1000;
+            $html .= '<script>setTimeout ("refreshCamImg_' . $id . '()", ' . $int . '); function refreshCamImg_' . $id
+                . '(){ $("#gcamimage_' . $id . '").attr("src", "' . $url
+                . '&" + new Date().getTime()); setTimeout ("refreshCamImg_' . $id . '()", ' . $int . ');};</script>';
+        }
 
         return $html;
     }
