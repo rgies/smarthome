@@ -27,6 +27,8 @@ class Lib_Core_Homematic
 
     protected $_port;
 
+    protected static $_devices;
+
 
     public function __construct($port = 2001)
     {
@@ -42,6 +44,67 @@ class Lib_Core_Homematic
             self::$_host = $config->getHost();
         }
 
+        // load homematic device list
+        if (null === self::$_devices)
+        {
+            self::$_devices = $this->_getDeviceList();
+        }
+    }
+
+    /**
+     * Get device list of all known homematic components.
+     *
+     * @return array Array of devices with address as key
+     * @throws Exception If can not get list
+     */
+    protected function _getDeviceList()
+    {
+        if (is_file(SH_ROOT_PATH . 'Data/devices.dat'))
+        {
+            $devices = unserialize(file_get_contents(SH_ROOT_PATH . 'Data/devices.dat'));
+        }
+        else
+        {
+            $script = 'string s_object_id; object o; string v1; '
+                . 'foreach (s_object_id, dom.GetObject(ID_DEVICES).EnumUsedIDs()){'
+                . 'o = dom.GetObject (s_object_id); v1 = v1 + o.Address() + "|" + o.HssType() + "|" + o.Name() + "\n";'
+                . '}';
+
+            $xml = $this->_runScript($script);
+
+            if (!isset($xml['v1']))
+            {
+                throw new Exception('Homematic device list can not be load.');
+            }
+
+            $ret = $xml['v1'];
+            $ret = explode("\n", $ret);
+
+            $devices = array();
+            foreach ($ret as $item)
+            {
+                if ($item)
+                {
+                    $item = explode('|', $item);
+                    $devices[$item[0]] = array('type' => $item[1],'name' => $item[2]);
+                }
+            }
+
+            file_put_contents(SH_ROOT_PATH . 'Data/devices.dat', serialize($devices));
+        }
+
+        return $devices;
+    }
+
+    /**
+     * Get device list of all known homematic components.
+     *
+     * @return array Array of devices with address as key
+     * @throws Exception If can not get list
+     */
+    public function getDeviceList()
+    {
+        return self::$_devices;
     }
 
     public function getValue($deviceId, $valueId)
@@ -104,28 +167,6 @@ class Lib_Core_Homematic
         }
         return self::$_connection[$this->_port]->getServiceMessages();
     }
-
-//    public function getStatus($deviceId)
-//    {
-//        $status = 0;
-//
-//        //$method = 'system.listMethods';
-//        //$method = 'listDevices';
-//
-//        //$result = $api->listDevices();
-//        //$result = $api->getDeviceDescription('KEQ0199286:1');
-//        //$result = $api->getParamsetDescription('KEQ0199286:1', 'VALUES');
-//        //print_r($result);
-//        //$result = $api->getServiceMessages();
-//        //$result = $api->$method();
-//        //var_dump($result);
-//        if (isset($deviceId) && $deviceId)
-//        {
-//            $status = self::$_connection[$this->_port]->getValue($deviceId, 'STATE');
-//        }
-//
-//        return $status;
-//    }
 
     public function getParamsetDescription($deviceId)
     {
@@ -228,7 +269,7 @@ class Lib_Core_Homematic
         $pos = mb_strpos($res, '<xml>');
         if ($pos !== false)
         {
-            $xml = simplexml_load_string(mb_substr($res, $pos));
+            $xml = simplexml_load_string(utf8_encode(mb_substr($res, $pos)));
             $xml = json_decode(json_encode((array)$xml), 2);
         }
 

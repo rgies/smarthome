@@ -51,7 +51,7 @@ class Module_Core_HomematicServiceMessages extends Module_Abstract
             $message = '';
             foreach ($messages as $item)
             {
-                $message .= htmlentities($item[0] . ': ' . $item[1]) . '<br/>';
+                $message .= htmlentities($this->_translateErrMessage($item[0], $item[1])) . '.<br/>';
             }
 
             $html .= '<!-- Button trigger modal -->
@@ -79,4 +79,38 @@ class Module_Core_HomematicServiceMessages extends Module_Abstract
         return $html;
     }
 
-} 
+
+    /**
+     * Get error message translation.
+     *
+     * @param string $deviceId Id of hm device
+     * @param string $message The error message
+     * @return string Translated message
+     */
+    protected function _translateErrMessage($deviceId, $message)
+    {
+        $hm = new Lib_Core_Homematic();
+        $dev = explode(':', $deviceId);
+        $deviceList = $hm->getDeviceList();
+
+        $deviceName = $deviceList[$dev[0]]['name'];
+
+        switch($message)
+        {
+            case 'CONFIG_PENDING':
+                $message = '';
+                break;
+            case 'LOWBAT':
+                $message = 'Batteriestand niedrig';
+                break;
+            case 'STICKY_UNREACH':
+                $message = 'Kommunikation war gestört';
+                break;
+            case 'UNREACH':
+                $message = 'Kommunikation zur Zeit gestört';
+                break;
+        }
+
+        return $deviceName . ': ' . $message;
+    }
+}

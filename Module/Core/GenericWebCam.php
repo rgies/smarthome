@@ -53,5 +53,4 @@ class Module_Core_GenericWebCam extends Module_Abstract
 
         return $html;
     }
-
 }
