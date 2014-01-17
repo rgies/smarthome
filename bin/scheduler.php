@@ -67,7 +67,7 @@ foreach ($deviceList as $name=>$item)
     }
     if (!isset($config[$name]['timestamp']))
     {
-        $config[$name]['timestamp'] = time();
+        $config[$name]['timestamp'] = time() - $checkOutDelay;
     }
     if (!isset($config[$name]['state']))
     {
