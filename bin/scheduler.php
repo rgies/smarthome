@@ -12,24 +12,7 @@
 // =====================================================================================
 // Config
 // =====================================================================================
-// ip address of homematic CCU
-$homematicIp 	= '192.168.1.222';
-
-// id of homematic Anwesenheits system variable
-$atHomeSysVarId = '950';
-
-// mobile devices to check
-$deviceList 	= array(
-    'iPhone Robert' => array('ip' => '192.168.1.160', 'var_id' => '2666'),
-    'iPhone Heike'  => array('ip' => '192.168.1.161', 'var_id' => '2668'),
-);
-
-// delay for check out from home in seconds
-$checkOutDelay = 1800;
-
-// name of internal config file
-$configFileName = __DIR__ . '/config.dat';
-
+require_once (__DIR__ . '/config.php');
 // =====================================================================================
 
 
