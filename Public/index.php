@@ -115,5 +115,7 @@
     <script language="JavaScript"><?php echo Lib_Core_HtmlHelper::renderAlertRefreshJs();?></script>
     <!-- Panel refresh script -->
     <script language="JavaScript"><?php echo Lib_Core_HtmlHelper::renderPanelRefreshJs($panels);?></script>
+    <!-- Preload loader image -->
+    <script>$('<img src="images/ajax-loader.gif"/>');</script>
 </body>
 </html>
