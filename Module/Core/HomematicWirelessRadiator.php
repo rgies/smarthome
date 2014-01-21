@@ -57,16 +57,15 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         }
         else
         {
-            $upTemp     = (float)$temp2 + 0.5;
-            $downTemp   = (float)$temp2 - 0.5;
-            $upUri      = $this->_getAjaxUrl('setTemperature', array($this->_config['device_id'], $upTemp));
-            $downUri    = $this->_getAjaxUrl('setTemperature', array($this->_config['device_id'], $downTemp));
-            $upScript   = '$(\'#btnCtrlMode_' . $this->_id . '\').html(\'Manuell\');$(\'#setTemp_' . $this->_id
-                . '\').html(\'' . number_format($upTemp, 1, '.', '') . '\');$.get( \'' . $upUri
-                . '\', function( data ) {});';
-            $downScript = '$(\'#btnCtrlMode_' . $this->_id . '\').html(\'Manuell\');$(\'#setTemp_' . $this->_id
-                . '\').html(\'' . number_format($downTemp, 1, '.', '') . '\');$.get( \'' . $downUri
-                . '\', function( data ) {});';
+            $tempId = '\'#setTemp_' . $this->_id . '\'';
+            $modeId = '\'#btnCtrlMode_' . $this->_id . '\'';
+            $uri    = $this->_getAjaxUrl('setTemperature', array($this->_config['device_id'], ''));
+            $upScript   = 'val=parseFloat($(' . $tempId . ').html())+0.5;if (val>30) val=30;$(' . $modeId
+                . ').html(\'Manuell\');$(' . $tempId . ').html(val.toFixed(1)); $.get( \'' . $uri
+                . '\' + val, function( data ) {});';
+            $downScript = 'val=parseFloat($(' . $tempId . ').html())-0.5;if (val<0) val=0;$(' . $modeId
+                . ').html(\'Manuell\');$(' . $tempId . ').html(val.toFixed(1)); $.get( \'' . $uri
+                . '\' + val, function( data ) {});';
         }
 
         // control modes

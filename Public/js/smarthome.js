@@ -9,6 +9,13 @@
  * @date        2014-01-10
  */
 
+/**
+ * Load panel content by ajax call if not collapsed.
+ *
+ * @param id Id of panel
+ * @param row Panel row number
+ * @param col Panel column number
+ */
 function sm_updatePanelBody(id, row, col)
 {
     if ($('#collapse' + id).hasClass('in'))
