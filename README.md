@@ -15,6 +15,7 @@ Die Oberfläche basiert auf flexiblen Panels die beliebig benannt und mit Funkti
 - Homematic Lichtschalter
 - Homematic Rollandenschalter
 - Homematic Heizkörper Thermostate
+- Homematic Zwischenstecker
 - Homematic Service Meldungen auslesen
 - Homematic Variablen auslesen
 - WebCam einbinden
