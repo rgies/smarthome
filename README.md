@@ -37,4 +37,4 @@ Die Anwendung wird bei mir auf einem QNAP Nas auf einem Apache Webserver mit PHP
 4. Konfigurieren Sie dann in der **/Config/Config.xml** Datei Ihre Homematic Komponenten.
 5. Rufen Sie über einen Webbrowser die ../Public/index.php auf.
 
-> Smarthome besitzt keine eigene Benutzerauthentifizierung. Wenn Sie Smarthome im Internet freigeben möchten schützen Sie am besten den Zugriff über eine .htaccess Datei mit HTTP BASIC Authentication. Verschiedne NAS Systeme z.B. QNAP bieten über diesen Weg einen Anbindung an die Vorhandnen Benutzerverwaltung. 
+> Smarthome besitzt keine eigene Benutzerauthentifizierung. Wenn Sie Smarthome im Internet freigeben möchten schützen Sie am besten den Zugriff über eine .htaccess Datei mit HTTP BASIC Authentication. Verschiedne NAS Systeme z.B. QNAP bieten über diesen Weg einen Anbindung an die vorhandene Benutzerverwaltung. 
