@@ -37,6 +37,9 @@ class Module_Core_GenericWebCam extends Module_Abstract
         $url = $config['url'];
         $label = $config['label'];
 
+        $refreshCamJs = "$('#gcamimage_" . $id . "').attr('src', '" . $url
+            . "&' + new Date().getTime());";
+
         $html .= '<div>';
         $html .= htmlentities($label, ENT_QUOTES, 'UTF-8');
         $html .= '</div>';
@@ -52,7 +55,7 @@ class Module_Core_GenericWebCam extends Module_Abstract
             foreach ($config['buttons']['button'] as $button)
             {
                 $request = "$.get( '" . $this->_getAjaxUrl('callCam', array(base64_encode($label), $z))
-                    . "', function(data) {refreshCamImg_" . $id . "()});";
+                    . "', function(data) {" . $refreshCamJs . "});";
                 $html .= '<button type="button" class="btn btn-default" onclick="' . $request
                     . '">' . $button['label'] . '</button> ';
                 $z++;
@@ -68,9 +71,7 @@ class Module_Core_GenericWebCam extends Module_Abstract
         {
             $int = (int)$config['refresh'] * 1000;
             $int = ($int<3000) ? 3000 : $int;
-            $refreshCamJs = '$("#gcamimage_' . $id . '").attr("src", "' . $url
-                . '&" + new Date().getTime());';
-            $html .= '<script>setTimeout ("refreshCamImg_' . $id . '()", ' . $int . '); function refreshCamImg_' . $id
+            $html .= '<script>setTimeout ("refreshCamImg_' . $id . '();", ' . $int . '); function refreshCamImg_' . $id
                 . '(){ ' . $refreshCamJs . ' setTimeout ("refreshCamImg_' . $id . '()", ' . $int . ');};</script>';
         }
 
