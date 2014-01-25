@@ -17,6 +17,7 @@ Die Oberfläche basiert auf flexiblen Panels die beliebig benannt und mit Funkti
 - Heizkörper Thermostate
 - Service Meldungen auslesen
 - Variablen auslesen
+- WebCam
 
 ### Systemvorraussetzungen ###
 
@@ -35,3 +36,5 @@ Die Anwendung wird bei mir auf einem QNAP Nas auf einem Apache Webserver mit PHP
 3. Kopieren Sie die Datei **/Config/Config-dist.xml** zu **/Config/Config.xml**.
 4. Konfigurieren Sie dann in der **/Config/Config.xml** Datei Ihre Homematic Komponenten.
 5. Rufen Sie über einen Webbrowser die ../Public/index.php auf.
+
+> Smarthome besitzt keine eigene Benutzerauthentifizierung. Wenn Sie Smarthome im Internet freigeben möchten schützen Sie am besten den Zugriff über eine .htaccess Datei mit HTTP BASIC Authentication. Verschiedne NAS Systeme z.B. QNAP bieten über diesen Weg einen Anbindung an die Vorhandnen Benutzerverwaltung. 
