@@ -22,9 +22,8 @@ Die Oberfläche basiert auf flexiblen Panels die beliebig benannt und mit Funkti
 
 Die Anwendung wird bei mir auf einem QNAP Nas auf einem Apache Webserver mit PHP Unterstützung betrieben. Die Anwendung ist in PHP geschrieben und verwendet [Twitter Bootstrap](http://getbootstrap.com) und [jQuery](http://jquery.com) für die Benutzeroberfläche.
 
-- Webserver Apache, Ngix, IIS mit PHP Module >=5.3.x
+- Webserver Apache, Nginx oder IIS mit PHP Module >=5.3.x
 - Homematic CCU2 für Hausautomatisierung
-
 
 
 > Es werden keine zusätzlichen Erweiterungen für die Homematic benötigt. Smarthome kommuniziert mit der Homematic CCU über die standard XmlRpc Schnittstelle.
