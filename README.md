@@ -10,14 +10,14 @@ Die Oberfläche basiert auf flexiblen Panels die beliebig benannt und mit Funkti
 
 **Smarthome** verwendet ein sehr stark reduziertes Benutzerinterface für eine sehr einfache Bedienung. Die Benutzeroberfläche passt sich automatisch an die Displaygröße verschiedener Geräte (Smartphone, Tablet, Desktop) an.
 
-**Aktuell unterstützte Homematic Komponenten:**
+**Aktuell unterstützte Komponenten:**
 
-- Lichtschalter
-- Rollandenschalter
-- Heizkörper Thermostate
-- Service Meldungen auslesen
-- Variablen auslesen
-- WebCam
+- Homematic Lichtschalter
+- Homematic Rollandenschalter
+- Homematic Heizkörper Thermostate
+- Homematic Service Meldungen auslesen
+- Homematic Variablen auslesen
+- WebCam einbinden
 
 ### Systemvorraussetzungen ###
 
