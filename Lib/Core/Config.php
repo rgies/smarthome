@@ -15,6 +15,9 @@
  */
 class Lib_Core_Config
 {
+    /**
+     * @var SimpleXMLElement
+     */
     protected static $_config;
 
     public function __construct()
@@ -47,6 +50,11 @@ class Lib_Core_Config
     public function getPanel($rowNr, $colNr)
     {
         return self::$_config->grid->row[$rowNr]->panel[$colNr];
+    }
+
+    public function getModuleByLabel($label)
+    {
+        return self::$_config->xpath('//module[label[text()="' . $label . '"]]');
     }
 
     public function getHost()
