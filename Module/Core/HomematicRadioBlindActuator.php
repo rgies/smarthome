@@ -46,11 +46,11 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
             $onCss = 'btn btn-default';
             $offCss = 'btn btn-default';
 
-            if ($status > 90)
+            if ($status > 0.9)
             {
                 $onCss = 'btn btn-primary active';
             }
-            elseif ($status < 10)
+            elseif ($status < 0.1)
             {
                 $offCss = 'btn btn-primary active';
             }
