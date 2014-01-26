@@ -43,25 +43,27 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
 
         if ($this->_config['device_id'] && !is_null($status))
         {
+            $onCss = 'btn btn-default';
+            $offCss = 'btn btn-default';
 
-            if ($status > 0.0)
+            if ($status > 90)
             {
                 $onCss = 'btn btn-primary active';
-                $offCss = 'btn btn-default';
             }
-            else
+            elseif ($status < 10)
             {
-                $onCss = 'btn btn-default';
                 $offCss = 'btn btn-primary active';
             }
 
+            // click on up
             $uri = $this->_getAjaxUrl('setStatus', array($this->_config['device_id'], 100.0));
-            $clickOn = "\$('#" . $idOn . "').attr('class', 'btn btn-primary active');";
+            $clickOn = "\$('#" . $idOn . "').attr('class', 'btn btn-default active');";
             $clickOn .= "\$('#" . $idOff . "').attr('class', 'btn btn-default');";
             $clickOn .= "$.get( '" . $uri . "', function( data ) {});";
 
+            // click on down
             $uri = $this->_getAjaxUrl('setStatus', array($this->_config['device_id'], 0.0));
-            $clickOff = "\$('#" . $idOff . "').attr('class', 'btn btn-primary active');";
+            $clickOff = "\$('#" . $idOff . "').attr('class', 'btn btn-default active');";
             $clickOff .= "\$('#" . $idOn . "').attr('class', 'btn btn-default');";
             $clickOff .= "$.get( '" . $uri . "', function( data ) {});";
         }
@@ -99,25 +101,6 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
 
         return $script;
     }
-
-//    /**
-//     * Gets the current status of light device.
-//     *
-//     * @return float True for on and false for off
-//     */
-//    protected function getStatus()
-//    {
-//        $status = null;
-//
-//        if (isset($this->_config['device_id']) && $this->_config['device_id'])
-//        {
-//            $hm = new Lib_Core_Homematic();
-//            //$status = $hm->getValue($this->_config['device_id'], 'LEVEL');
-//            $status = $hm->getState('BidCos-RF.' . $this->_config['device_id'] . '.LEVEL');
-//        }
-//
-//        return $status;
-//    }
 
     /**
      * Ajax action to set the device level to 0.0 or 100.0.
