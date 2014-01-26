@@ -56,7 +56,7 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
             }
 
             // click on up
-            $uri = $this->_getAjaxUrl('setStatus', array($this->_config['device_id'], 100.0));
+            $uri = $this->_getAjaxUrl('setStatus', array($this->_config['device_id'], 1.0));
             $clickOn = "\$('#" . $idOn . "').attr('class', 'btn btn-default active');";
             $clickOn .= "\$('#" . $idOff . "').attr('class', 'btn btn-default');";
             $clickOn .= "$.get( '" . $uri . "', function( data ) {});";
