@@ -66,7 +66,7 @@ class Module_Core_GenericWebCam extends Module_Abstract
 
         $html .= '</div>';
 
-        // javascript to refresh webcam images
+        // javascript to refresh cam images
         if (isset($config['refresh']) && is_numeric($config['refresh']))
         {
             $int = (int)$config['refresh'] * 1000;
