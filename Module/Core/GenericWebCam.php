@@ -11,7 +11,7 @@
  */
 
 /**
- * Homematic Generic WebCam Class.
+ * Homematic Generic Web Cam Class.
  */
 class Module_Core_GenericWebCam extends Module_Abstract
 {
