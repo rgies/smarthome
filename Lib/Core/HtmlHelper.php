@@ -177,12 +177,13 @@ class Lib_Core_HtmlHelper
             {
                 $refreshTime = ((int)$panel[2]['refresh'] < 10) ? 10 : (int)$panel[2]['refresh'];
                 $uri = 'ajax_request.php?module=renderPanel&action=' . $panel[0] . '&params=' . $panel[1];
-                $jsTimeout = 'setTimeout("sm_refresh_' . $id . '()", ' . $refreshTime * 1000 . ');';
+                $jsTimeoutInit = 'setTimeout("sm_refresh_' . $id . '()", ' . ($refreshTime + ($z*3)) * 1000 . ');';
+                $jsTimeoutLoop = 'setTimeout("sm_refresh_' . $id . '()", ' . $refreshTime * 1000 . ');';
                 $jsScript = 'if (!$(".modal").hasClass("in") && $("#collapse' . $z . '").hasClass("in")){';
                 $jsScript .= '$.get( "' . $uri . '", function( data ) { $( "#' . $id . '" ).html( data ); });';
                 $jsScript .= '};';
-                $js .= 'function sm_refresh_' . $id . '(){' . $jsScript . $jsTimeout . '};';
-                $js .= $jsTimeout;
+                $js .= 'function sm_refresh_' . $id . '(){' . $jsScript . $jsTimeoutLoop . '};';
+                $js .= $jsTimeoutInit;
             }
         }
         return $js;
