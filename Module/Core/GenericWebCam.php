@@ -44,7 +44,7 @@ class Module_Core_GenericWebCam extends Module_Abstract
         $html .= htmlentities($label, ENT_QUOTES, 'UTF-8');
         $html .= '</div>';
         $html .= '<div style="max-width:640px;"><img id="gcamimage_' . $id
-            . '" style="max-width:100%; height: auto;" src="images/ajax-loader.gif" />';
+            . '" style="max-width:100%; height: auto;" src="' . $url . '" />';
 
         // control buttons
         if (isset($config['buttons']) && is_array($config['buttons']['button']))
@@ -67,15 +67,13 @@ class Module_Core_GenericWebCam extends Module_Abstract
         $html .= '</div>';
 
         // javascript to refresh cam images
-        $html .= '<script>' . $refreshCamJs;
         if (isset($config['refresh']) && is_numeric($config['refresh']))
         {
             $int = (int)$config['refresh'] * 1000;
             $int = ($int<3000) ? 3000 : $int;
-            $html .= 'setTimeout ("refreshCamImg_' . $id . '();", ' . $int . '); function refreshCamImg_' . $id
-                . '(){ ' . $refreshCamJs . ' setTimeout ("refreshCamImg_' . $id . '()", ' . $int . ');};';
+            $html .= '<script>setTimeout ("refreshCamImg_' . $id . '();", ' . $int . '); function refreshCamImg_' . $id
+                . '(){ ' . $refreshCamJs . ' setTimeout ("refreshCamImg_' . $id . '()", ' . $int . ');};</script>';
         }
-        $html .= '</script>';
 
         return $html;
     }
