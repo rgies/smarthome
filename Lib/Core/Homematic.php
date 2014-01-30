@@ -10,9 +10,9 @@
  * @date        2014-01-10
  */
 
-require_once SH_ROOT_PATH . 'Lib/client.xmlrpc.php';
-require_once SH_ROOT_PATH . 'Lib/client.json.php';
-require_once SH_ROOT_PATH . 'Lib/client.http.php';
+require_once Lib_Core_App::$rootPath . '/Lib/client.xmlrpc.php';
+require_once Lib_Core_App::$rootPath . '/Lib/client.json.php';
+require_once Lib_Core_App::$rootPath . '/Lib/client.http.php';
 
 /**
  * Class Lib_Core_Homematic.
@@ -59,9 +59,9 @@ class Lib_Core_Homematic
      */
     protected function _getDeviceList()
     {
-        if (is_file(SH_ROOT_PATH . 'Data/devices.dat'))
+        if (is_file(Lib_Core_App::$rootPath . '/Data/devices.dat'))
         {
-            $devices = unserialize(file_get_contents(SH_ROOT_PATH . 'Data/devices.dat'));
+            $devices = unserialize(file_get_contents(Lib_Core_App::$rootPath . '/Data/devices.dat'));
         }
         else
         {
@@ -90,7 +90,7 @@ class Lib_Core_Homematic
                 }
             }
 
-            file_put_contents(SH_ROOT_PATH . 'Data/devices.dat', serialize($devices));
+            file_put_contents(Lib_Core_App::$rootPath . '/Data/devices.dat', serialize($devices));
         }
 
         return $devices;

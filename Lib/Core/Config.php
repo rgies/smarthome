@@ -22,7 +22,7 @@ class Lib_Core_Config
 
     public function __construct()
     {
-        $filename = SH_ROOT_PATH . 'Config/Config.xml';
+        $filename = Lib_Core_App::$rootPath . '/Config/Config.xml';
 
         if (!file_exists($filename))
         {

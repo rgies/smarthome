@@ -9,7 +9,9 @@
  * @date        2014-01-10
  */
 
-require_once '../Config/Init.php';
+// Init application
+require_once '../Lib/Core/App.php';
+$app = new Lib_Core_App('../');
 
 if (!isset($_REQUEST['module']))
 {
