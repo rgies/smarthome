@@ -25,21 +25,21 @@ require_once (__DIR__ . '/config.php');
  */
 function ping($host, $timeout = 1)
 {
-        /* ICMP ping packet with a pre-calculated checksum */
-        $package = "\x08\x00\x7d\x4b\x00\x00\x00\x00PingHost";
-        $socket  = socket_create(AF_INET, SOCK_RAW, 1);
-        socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => $timeout, 'usec' => 0));
-        socket_connect($socket, $host, null);
+    /* ICMP ping packet with a pre-calculated checksum */
+    $package = "\x08\x00\x7d\x4b\x00\x00\x00\x00PingHost";
+    $socket  = socket_create(AF_INET, SOCK_RAW, 1);
+    socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => $timeout, 'usec' => 0));
+    socket_connect($socket, $host, null);
 
-        $ts = microtime(true);
-        socket_send($socket, $package, strLen($package), 0);
-        if (socket_read($socket, 255))
-        	$result = microtime(true) - $ts;
-        else
-        	$result = false;
-        socket_close($socket);
+    $ts = microtime(true);
+    socket_send($socket, $package, strLen($package), 0);
+    if (socket_read($socket, 255))
+        $result = microtime(true) - $ts;
+    else
+        $result = false;
+    socket_close($socket);
 
-        return $result;
+    return $result;
 }
 
 // load config file
@@ -58,9 +58,9 @@ $atHome = null;
 // loop to all defined devices
 foreach ($deviceList as $name=>$item)
 {
-	$ret = ping($item['ip']);
-	
-	// init config section
+    $ret = ping($item['ip']);
+
+    // init config section
     if (!isset($config[$name]))
     {
         $config[$name] = array();
@@ -75,17 +75,17 @@ foreach ($deviceList as $name=>$item)
     }
 
     if ($ret !== false)
-	{
-		$state = 1;
+    {
+        $state = 1;
         $atHome = 1;
-	}
+    }
     elseif ($config[$name]['state'] == 0)
     {
         continue;
     }
-	else
-	{
-		$state = 0;
+    else
+    {
+        $state = 0;
 
         // checkout after end of defined delay
         if (time() - $config[$name]['timestamp'] < $checkOutDelay)
@@ -97,16 +97,16 @@ foreach ($deviceList as $name=>$item)
         {
             $atHome = 0;
         }
-	}
+    }
 
-	// set homematic variable
+    // set homematic variable
     if (isset($item['var_id']) && $config[$name]['state'] != $state)
     {
-        $xml = file_get_contents('http://' . $homematicIp . '/config/xmlapi/statechange.cgi?ise_id='
-            . $item['var_id'] . '&new_value=' . $state);
+        $xml = @file_get_contents('http://' . $homematicIp . ':8181/rega.exe?state=dom.GetObject("'
+            . rawurlencode($item['var_id']) . '").State(' . $state . ')');
 
-		    // remember data
-		    $config[$name]['state'] = $state;
+        // remember data
+        $config[$name]['state'] = $state;
     }
 
     $config[$name]['timestamp'] = time();
@@ -116,12 +116,11 @@ foreach ($deviceList as $name=>$item)
 // set Anwesenheit system variable
 if ($atHome !== null && $config['atHome'] != $atHome)
 {
-    $xml = file_get_contents('http://' . $homematicIp . '/config/xmlapi/statechange.cgi?ise_id='
-        . $atHomeSysVarId . '&new_value=' . $atHome);
+    $xml = @file_get_contents('http://' . $homematicIp . ':8181/rega.exe?state=dom.GetObject("'
+        . rawurlencode($atHomeSysVarId) . '").State(' . $atHome . ')');
 
     $config['atHome'] = $atHome;
 }
 
 // save config file
 file_put_contents($configFileName, serialize($config));
-

@@ -7,7 +7,7 @@
 $homematicIp 	= '192.168.xxx.xxx';
 
 // id of homematic Anwesenheits system variable
-$atHomeSysVarId = '950';
+$atHomeSysVarId = 'Anwesenheit';
 
 // mobile devices to check
 $deviceList 	= array(
