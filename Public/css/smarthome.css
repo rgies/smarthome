@@ -1,11 +1,13 @@
 body {
-    background-color: rgba(218, 10, 13, 0.20);
+    /**background-color: rgba(218, 10, 13, 0.20);**/
+    background: #cdc2bf url("../images/texture.png");
 }
 
 /* Top navigation bar design */
 .navbar {
     color: #ffffff;
     background-color: #da0a0d;
+    border: 0px;
 }
 
 .navbar-default .navbar-brand {
