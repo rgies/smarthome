@@ -31,7 +31,10 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
     public function renderHtml($vars = array())
     {
         $html = '';
+        $upScript   = '';
+        $downScript = '';
         $buttonStyle = '';
+        $modeTxt = 'Auto';
 
         // current temperature
         $temp1 = (isset($vars['vartemp1' . $this->_id])) ? $vars['vartemp1' . $this->_id] : '';
@@ -48,8 +51,6 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         // arrow icon
         $icon = ((float)$temp1 > (float)$temp2) ? 'arrow-down' : 'arrow-up';
 
-        $upScript   = '';
-        $downScript = '';
 
         if ($temp1 == '')
         {
@@ -71,10 +72,10 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         // control modes
         $modes = array(
             'Auto'      => array('setAutoMode', 1),
+            'Boost'     => array('setBoostMode', 1),
             'Manuell'   => array('setTemperature', (float)$temp2),
             'Comfort'   => array('setTemperature', 21),
-            'ECO'       => array('setTemperature', 16),
-            //'Boost'     => array('', 0)
+            'ECO'       => array('setEcoMode', 1),
         );
 
         switch($mode)
@@ -89,9 +90,7 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
                 $modeTxt = 'Boost';
                 break;
             default:
-                $modeTxt = 'Auto';
         }
-
 
         $html .= '<span>';
         $html .= htmlentities($this->_config['label'], ENT_QUOTES, 'UTF-8');
@@ -154,10 +153,10 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
         if (isset($this->_config['device_id']) && $this->_config['device_id'])
         {
             $hm = new Lib_Core_Homematic();
-            $script = $hm->getDeviceStatusScript('temp1' . $this->_id, $this->_config['device_id'],'ACTUAL_TEMPERATURE');
-            $script .= $hm->getDeviceStatusScript('temp2' . $this->_id, $this->_config['device_id'],'SET_TEMPERATURE');
-            $script .= $hm->getDeviceStatusScript('valv' . $this->_id, $this->_config['device_id'],'VALVE_STATE');
-            $script .= $hm->getDeviceStatusScript('mode' . $this->_id, $this->_config['device_id'],'CONTROL_MODE');
+            $script = $hm->getDeviceStatusScript('temp1' . $this->_id, $this->_config['device_id'], 'ACTUAL_TEMPERATURE');
+            $script .= $hm->getDeviceStatusScript('temp2' . $this->_id, $this->_config['device_id'], 'SET_TEMPERATURE');
+            $script .= $hm->getDeviceStatusScript('valv' . $this->_id, $this->_config['device_id'], 'VALVE_STATE');
+            $script .= $hm->getDeviceStatusScript('mode' . $this->_id, $this->_config['device_id'], 'CONTROL_MODE');
         }
 
         return $script;
@@ -187,9 +186,41 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
     {
         $hm = new Lib_Core_Homematic();
         $hm->setValue($params[0], 'AUTO_MODE', true);
-        //dom.GetObject('Name').DPByHssDP('AUTO_MODE').State(1);
-        //dom.GetObject("BidCos-RF.KEQ0431880:4.MANU_MODE").State(22.5);
     }
+
+    /**
+     * Ajax action to set the mode to eco.
+     *
+     * @param array $params Array([device_id], [status])
+     */
+    public static function setEcoModeAjaxAction(array $params)
+    {
+        $hm = new Lib_Core_Homematic();
+        $hm->setValue($params[0], 'LOWERING_MODE', true);
+    }
+
+    /**
+     * Ajax action to set the mode to comfort.
+     *
+     * @param array $params Array([device_id], [status])
+     */
+    public static function setComfortModeAjaxAction(array $params)
+    {
+        $hm = new Lib_Core_Homematic();
+        $hm->setValue($params[0], 'COMFORT_MODE', true);
+    }
+
+    /**
+     * Ajax action to set the mode to boost.
+     *
+     * @param array $params Array([device_id], [status])
+     */
+    public static function setBoostModeAjaxAction(array $params)
+    {
+        $hm = new Lib_Core_Homematic();
+        $hm->setValue($params[0], 'BOOST_MODE', true);
+    }
+}
 
     /*
 ===========================================
@@ -360,4 +391,3 @@ Default:0
 Operations: 2 -> Write
 ===========================================
      */
-}
