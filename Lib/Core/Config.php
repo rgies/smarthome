@@ -20,6 +20,8 @@ class Lib_Core_Config
      */
     protected static $_config;
 
+    public static $secret;
+
     public function __construct()
     {
         $filename = Lib_Core_App::$rootPath . '/Config/Config.xml';
@@ -30,6 +32,8 @@ class Lib_Core_Config
         }
 
         $this->_readConfig($filename);
+
+        self::$secret = self::$_config->app->secret;
     }
 
     protected function _readConfig($filename)
@@ -40,7 +44,7 @@ class Lib_Core_Config
 
             if (! $config)
             {
-                throw new Exception(error_get_last());
+                throw new Exception(error_get_last(), 0);
             }
 
             self::$_config = $config;

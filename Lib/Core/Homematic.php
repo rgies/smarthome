@@ -117,6 +117,13 @@ class Lib_Core_Homematic
         return self::$_connection[$this->_port]->setValue($deviceId, $valueId, $value);
     }
 
+    public function setState($valueId, $value)
+    {
+        $url = 'http://' . self::$_host . ':8181/rega.exe';
+        return @file_get_contents($url . '?state=dom.GetObject("' . rawurlencode($valueId) . '").State('
+            . rawurlencode($value) . ')');
+    }
+
     public function getState($varName)
     {
         $url = 'http://' . self::$_host . ':8181/rega.exe';
@@ -221,12 +228,12 @@ class Lib_Core_Homematic
             $vars = $this->_runScript($script);
             if (Lib_Core_FunctionHelper::validateScriptResult($vars))
             {
-                continue;
+                return $vars;
             }
             error_log('Retry script execution in ' . __CLASS__ . ':' . $script);
         }
 
-        return $vars;
+        return array();
     }
 
     /**
@@ -242,7 +249,7 @@ class Lib_Core_Homematic
             return array();
         }
 
-        $fp = @fsockopen (self::$_host, 8181, $errno, $errstr, 2);
+        $fp = @fsockopen (self::$_host, 8181, $errno, $errstr, 4);
         $res = '';
         $xml = array();
 
@@ -256,15 +263,17 @@ class Lib_Core_Homematic
             // Zusammenstellen des Header für HTTP-Post
             fputs($fp, "POST /Test.exe HTTP/1.1\r\n");
             fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
-            fputs($fp, "Content-length: ". strlen($script) ."\r\n");
+            fputs($fp, "Content-length: ". mb_strlen($script) ."\r\n");
             fputs($fp, "Connection: close\r\n\r\n");
             fputs($fp, $script);
             while(!feof($fp))
             {
-                $res .= fgets($fp, 500);
+                $res .= fgets($fp, 5000);
             }
             fclose($fp);
         }
+
+        //var_dump(htmlentities($script));
 
         $pos = mb_strpos($res, '<xml>');
         if ($pos !== false)

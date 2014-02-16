@@ -74,7 +74,7 @@ class Module_Core_HomematicWirelessRadiator extends Module_Abstract
             'Auto'      => array('setAutoMode', 1),
             'Boost'     => array('setBoostMode', 1),
             'Manuell'   => array('setTemperature', (float)$temp2),
-            'Comfort'   => array('setTemperature', 21),
+            'Comfort'   => array('setComfortMode', 1),
             'ECO'       => array('setEcoMode', 1),
         );
 

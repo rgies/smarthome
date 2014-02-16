@@ -15,6 +15,7 @@
     <app>
         <!-- HomeMatic CCU IP Address -->
         <host>192.168.???.???</host>
+        <secret>ChangeThisToYourIndividualCharacters</secret>
     </app>
 
     <!-- Alert Messages -->

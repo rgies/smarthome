@@ -43,9 +43,27 @@ abstract class Module_Abstract implements Module_Interface
      */
     final public function __construct($config)
     {
-        $this->_id = 'id' . str_replace('.', '_', microtime(true)) . '_' . rand(0,1000);
+        $this->_id = $this->_getRandomKey();
         $this->_config = $config;
         $this->_validateParams();
+    }
+
+    /**
+     * Created a unique module id.
+     *
+     * @param int $length
+     * @return string
+     */
+    protected function _getRandomKey($length=10)
+    {
+        $key = '';
+        $keys = array_merge(range(0, 9), range('a', 'z'));
+
+        for ($i = 0; $i < $length; $i++) {
+            $key .= $keys[array_rand($keys)];
+        }
+
+        return $key;
     }
 
     /**

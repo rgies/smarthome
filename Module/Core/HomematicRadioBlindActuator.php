@@ -1,6 +1,6 @@
 <?php
 /**
- * Homematic Radio Blind-Actuator Module.
+ * Homematic Radio Blind-Actuator [HM-LC-Bl1PBU-FM] Module.
  *
  * @package     Smarthome
  * @subpackage  Module
@@ -23,6 +23,11 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
     protected $_requiredParams = array('class', 'label', 'device_id');
 
     /**
+     * Actor blind channel.
+     */
+    const BLIND_CHANNEL = ':1';
+
+    /**
      * Gets html code shown in configured panel.
      *
      * @var array vars Variables from ccu response
@@ -43,6 +48,8 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
 
         if ($this->_config['device_id'] && !is_null($status))
         {
+            $deviceId = $this->_config['device_id'];
+
             $onCss = 'btn btn-default';
             $offCss = 'btn btn-default';
 
@@ -56,13 +63,13 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
             }
 
             // click on up
-            $uri = $this->_getAjaxUrl('setStatus', array($this->_config['device_id'], 1.0));
+            $uri = $this->_getAjaxUrl('setStatus', array($deviceId, 1.0));
             $clickOn = "\$('#" . $idOn . "').attr('class', 'btn btn-default active');";
             $clickOn .= "\$('#" . $idOff . "').attr('class', 'btn btn-default');";
             $clickOn .= "$.get( '" . $uri . "', function( data ) {});";
 
             // click on down
-            $uri = $this->_getAjaxUrl('setStatus', array($this->_config['device_id'], 0.0));
+            $uri = $this->_getAjaxUrl('setStatus', array($deviceId, 0.0));
             $clickOff = "\$('#" . $idOff . "').attr('class', 'btn btn-default active');";
             $clickOff .= "\$('#" . $idOn . "').attr('class', 'btn btn-default');";
             $clickOff .= "$.get( '" . $uri . "', function( data ) {});";
@@ -95,8 +102,9 @@ class Module_Core_HomematicRadioBlindActuator extends Module_Abstract
 
         if (isset($this->_config['device_id']) && $this->_config['device_id'])
         {
+            $deviceId = $this->_config['device_id'];
             $hm = new Lib_Core_Homematic();
-            $script = $hm->getDeviceStatusScript($this->_id, $this->_config['device_id'], 'level');
+            $script = $hm->getDeviceStatusScript($this->_id, $deviceId, 'level');
         }
 
         return $script;
