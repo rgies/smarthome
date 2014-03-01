@@ -54,7 +54,7 @@ abstract class Module_Abstract implements Module_Interface
      * @param int $length
      * @return string
      */
-    protected function _getRandomKey($length=10)
+    protected function _getRandomKey($length=8)
     {
         $key = '';
         $keys = array_merge(range(0, 9), range('a', 'z'));
